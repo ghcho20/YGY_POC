@@ -13,6 +13,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "mgeneratejs": "^0.7.1",
-    "mongodb": "^6.8.0"
+    "mongodb": "^6.8.0",
+    "nopt": "^7.2.1"
   }
 }
