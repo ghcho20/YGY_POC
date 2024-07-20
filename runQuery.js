@@ -61,6 +61,7 @@ async function runQuery(args) {
       "\n====================================================================",
     );
     console.log(`Running Queries with Filter${filterIn.length}`);
+    filterIn = filterIn.map((id) => new Date(id));
     filter = { funding_type: "time", _id: { $in: filterIn } };
     const start = Date.now();
     process.stdout.write("0");
@@ -98,12 +99,7 @@ async function runQuery(args) {
     cursor = coll.find(filter, project);
     explain = await cursor.explain("executionStats");
     await cursor.close();
-    console.log("ㄴwinningPlan:", explain.queryPlanner.winningPlan.inputStage);
-    console.log(
-      "ㄴexecuteionTime:",
-      explain.executionStats.executionTimeMillis,
-      "ms",
-    );
+    console.log("ㄴexplain:", explain);
   }
 
   await client.close();
