@@ -43,12 +43,21 @@ async function runQuery() {
       project +
       ") " +
       `FROM ${tbl} WHERE ` +
-      `funding_type='time' AND _id IN (${filterIn.join()})`;
+      `funding_type='time' AND _id IN`;
 
     const start = Date.now();
     process.stdout.write("0");
     for (let i = 0; i < nLoop; i++) {
-      result = await client.query(query);
+      const r = Math.floor(Math.random() * 10) + 1;
+      const rv = (function (r) {
+        if (r <= 5) {
+          return -r;
+        } else {
+          return r;
+        }
+      })(r);
+      filterIn = filterIn.map((v) => v + rv);
+      result = await client.query(query + ` (${filterIn.join()})`);
       if (i !== 0 && i % 100 === 0) {
         if (i % 1000 === 0) {
           process.stdout.write(">");
@@ -76,7 +85,9 @@ async function runQuery() {
       "ops/sec",
     );
     console.log("   ㄴavg time/query:", elapse / nLoop, "ms");
-    explain = await client.query(`EXPLAIN ANALYZE ${query}`);
+    explain = await client.query(
+      `EXPLAIN ANALYZE ${query} (${filterIn.join()})`,
+    );
     console.log("ㄴqueryPlan:", explain.rows[0]["QUERY PLAN"]);
     console.log("ㄴ" + explain.rows[4]["QUERY PLAN"]);
     console.log("ㄴ" + explain.rows[5]["QUERY PLAN"]);
