@@ -47,7 +47,7 @@ async function runQuery(args) {
     return;
   }
 
-  let filter, cursor, explain;
+  let cursor, explain;
   const project = {
     _id: 1,
     amount: 1,
@@ -61,13 +61,26 @@ async function runQuery(args) {
       "\n====================================================================",
     );
     console.log(`Running Queries with Filter${filterIn.length}`);
-    filter = { funding_type: "time", _id: { $in: filterIn } };
+    let filters = [];
+    for (let i = 0; i < filterIn.length; i += 100) {
+      filters.push({
+        funding_type: "time",
+        _id: { $in: filterIn.slice(i, i + 100) },
+      });
+    }
+
     const start = Date.now();
     process.stdout.write("0");
     for (let i = 0; i < nLoop; i++) {
-      cursor = coll.find(filter, project);
-      await cursor.toArray();
-      await cursor.close();
+      let cursors = [];
+      for (const filteri of filters) {
+        cursor = coll.find(filteri, project);
+        cursors.push(cursor);
+      }
+      await Promise.all(cursors.map((cursor) => cursor.toArray()));
+      for (const cursor of cursors) {
+        cursor.close();
+      }
       if (i !== 0 && i % 100 === 0) {
         if (i % 1000 === 0) {
           process.stdout.write(">");
@@ -95,7 +108,7 @@ async function runQuery(args) {
       "ops/sec",
     );
     console.log("   ㄴavg time/query:", elapse / nLoop, "ms");
-    cursor = coll.find(filter, project);
+    cursor = coll.find(filters[0], project);
     explain = await cursor.explain("executionStats");
     await cursor.close();
     console.log("ㄴwinningPlan:", explain.queryPlanner.winningPlan.inputStage);
