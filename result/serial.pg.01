@@ -1,0 +1,24 @@
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ7/21/2024, 7:19:26 PM ~ 7/21/2024, 7:21:30 PM
+   ㄴelapsed       : 124152
+   ㄴtotal queries : 10000
+   ㄴthruput       : 80.54 ops/sec
+   ㄴavg time/query: 12.4152 ms
+ㄴqueryPlan: Index Scan using shop_pkey on shop  (cost=0.42..2038.55 rows=167 width=32) (actual time=0.043..1.343 rows=148 loops=1)
+ㄴPlanning Time: 0.292 ms
+ㄴExecution Time: 1.373 ms
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ7/21/2024, 7:21:30 PM ~ 7/21/2024, 7:24:10 PM
+   ㄴelapsed       : 160268
+   ㄴtotal queries : 10000
+   ㄴthruput       : 62.39 ops/sec
+   ㄴavg time/query: 16.0268 ms
+ㄴqueryPlan: Index Scan using shop_pkey on shop  (cost=0.42..3742.10 rows=334 width=32) (actual time=0.145..2.547 rows=284 loops=1)
+ㄴPlanning Time: 0.445 ms
+ㄴExecution Time: 2.584 ms
