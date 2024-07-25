@@ -17,21 +17,16 @@ function loadConfig() {
 }
 
 async function warmUpCache(coll) {
-  console.log("Warming up cache");
+  console.log("Warming up connection pool");
 
-  const nLimit = 5000;
-  let cursor, nSkip, filter, nDocs;
-  for (let type of ["time", "day", "week"]) {
-    nSkip = 0;
-    filter = { funding_type: type };
-    nDocs = await coll.countDocuments(filter);
-    for (nSkip = 0; nDocs > 0; nDocs -= nLimit, nSkip += nLimit) {
-      cursor = coll.find(filter).skip(nSkip).limit(nLimit);
-      await cursor.toArray();
-      process.stdout.write(">");
-    }
+  const nLimit = 600;
+  let cursors = [];
+  for (let i = 0; i < nLimit; i++) {
+    const cursor = coll.find({ _id: i + 1000 });
+    cursors.push(cursor);
   }
-  console.log();
+  await Promise.all(cursors.map((cursor) => cursor.limit(1).toArray()));
+  await Promise.all(cursors.map((cursor) => cursor.close()));
 }
 
 function sleep(waitms) {
@@ -45,11 +40,7 @@ async function runQuery(args) {
   const client = new MongoClient(uri);
   const coll = client.db(dbName).collection(collName);
 
-  if (args["warmUp"]) {
-    await warmUpCache(coll);
-    await client.close();
-    return;
-  }
+  await warmUpCache(coll);
 
   let cursor, explain;
   const project = {
@@ -94,16 +85,6 @@ async function runQuery(args) {
       filter._id.$in = [randi, randj];
       cursor = coll.find(filter, project);
       runCursor(cursor);
-      // if (i !== 0 && i % 100 === 0) {
-      //   if (i % 1000 === 0) {
-      //     process.stdout.write(">");
-      //   } else {
-      //     process.stdout.write("-");
-      //   }
-      //   if (i % 10000 === 0) {
-      //     process.stdout.write("\n" + i / 10000);
-      //   }
-      // }
     }
     console.log();
     while (nProcessed < nParallel) {

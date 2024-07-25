@@ -1,0 +1,58 @@
+Warming up connection pool
+
+====================================================================
+Running 20000 Queries
+
+ㄴ7/25/2024, 4:08:11 PM ~ 7/25/2024, 4:08:15 PM
+   ㄴelapsed       : 4062
+   ㄴtotal queries : 20000
+   ㄴthruput       : 4923.68 ops/sec
+   ㄴavg time/query: 0.2031 ms
+
+====================================================================
+Running 21000 Queries
+
+ㄴ7/25/2024, 4:08:15 PM ~ 7/25/2024, 4:08:19 PM
+   ㄴelapsed       : 3384
+   ㄴtotal queries : 21000
+   ㄴthruput       : 6205.67 ops/sec
+   ㄴavg time/query: 0.16114285714285714 ms
+
+====================================================================
+Running 22000 Queries
+
+ㄴ7/25/2024, 4:08:19 PM ~ 7/25/2024, 4:08:22 PM
+   ㄴelapsed       : 3555
+   ㄴtotal queries : 22000
+   ㄴthruput       : 6188.46 ops/sec
+   ㄴavg time/query: 0.1615909090909091 ms
+
+====================================================================
+Running 23000 Queries
+
+ㄴ7/25/2024, 4:08:22 PM ~ 7/25/2024, 4:08:26 PM
+   ㄴelapsed       : 3846
+   ㄴtotal queries : 23000
+   ㄴthruput       : 5980.23 ops/sec
+   ㄴavg time/query: 0.16721739130434782 ms
+
+====================================================================
+Running 24000 Queries
+
+ㄴ7/25/2024, 4:08:26 PM ~ 7/25/2024, 4:08:30 PM
+   ㄴelapsed       : 3733
+   ㄴtotal queries : 24000
+   ㄴthruput       : 6429.14 ops/sec
+   ㄴavg time/query: 0.15554166666666666 ms
+
+====================================================================
+Running 25000 Queries
+
+ㄴ7/25/2024, 4:08:30 PM ~ 7/25/2024, 4:08:34 PM
+   ㄴelapsed       : 4044
+   ㄴtotal queries : 25000
+   ㄴthruput       : 6181.99 ops/sec
+   ㄴavg time/query: 0.16176 ms
+-----
+Max Thruput: 6429.14
+Min Thruput: 4923.68

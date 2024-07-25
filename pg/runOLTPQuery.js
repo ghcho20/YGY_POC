@@ -21,6 +21,19 @@ function sleep(waitms) {
   return new Promise((resolve) => setTimeout(resolve, waitms));
 }
 
+async function warmUpCache(pool, nLimit, tbl) {
+  console.log("Warming up connection pool");
+  let nProcessed = 0;
+  for (let i = 0; i < nLimit; i++) {
+    pool.query(`SELECT (_id) FROM ${tbl} WHERE _id=${i + 1000}`).then((res) => {
+      nProcessed++;
+    });
+  }
+  while (nProcessed < nLimit) {
+    await sleep(200);
+  }
+}
+
 async function runQuery() {
   const { Pool } = pg;
   const [uri, user, pwd, db, tbl, startParallel, maxParallel, stepParallel] =
@@ -35,6 +48,8 @@ async function runQuery() {
     max: maxClient,
     idleTimeoutMillis: 30000,
   });
+
+  await warmUpCache(pool, maxClient, tbl);
 
   let explain;
   const project =
@@ -66,16 +81,6 @@ async function runQuery() {
         end = Date.now();
         nProcessed++;
       });
-      // if (i !== 0 && i % 100 === 0) {
-      //   if (i % 1000 === 0) {
-      //     process.stdout.write(">");
-      //   } else {
-      //     process.stdout.write("-");
-      //   }
-      //   if (i % 10000 === 0) {
-      //     process.stdout.write("\n" + i / 10000);
-      //   }
-      // }
     }
     while (nProcessed < nParallel) {
       await sleep(200);
