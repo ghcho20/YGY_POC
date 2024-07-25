@@ -55,8 +55,7 @@ async function runQuery(args) {
     funding_type: "time",
     _id: { $in: [] },
   };
-  let cursors = [],
-    minThruput = 1_000_000,
+  let minThruput = 1_000_000,
     maxThruput = 0;
   for (
     let nParallel = parseInt(startParallel), thruput;
@@ -73,11 +72,15 @@ async function runQuery(args) {
     let cursor,
       nProcessed = 0;
     function runCursor(cursor) {
-      cursor.toArray().then((res) => {
-        end = Date.now();
-        nProcessed++;
-        cursors.push(cursor.close());
-      });
+      cursor
+        .toArray()
+        .then((res) => {
+          end = Date.now();
+          cursor.close();
+        })
+        .then(() => {
+          nProcessed++;
+        });
     }
     for (let i = 0, randi, randj; i < nParallel; i++) {
       randi = Math.floor(Math.random() * 100_000) + 1;
@@ -90,7 +93,6 @@ async function runQuery(args) {
     while (nProcessed < nParallel) {
       await sleep(200);
     }
-    Promise.all(cursors);
     const elapse = end - start;
     console.log(
       `ㄴ${new Date(start).toLocaleString("co-KR")} ~ ${new Date(
