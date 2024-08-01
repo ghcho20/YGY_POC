@@ -1,0 +1,116 @@
+[
+  {
+    schemaname: 'public',
+    tablename: 'shop',
+    indexname: 'shop_pkey1',
+    tablespace: null,
+    indexdef: 'CREATE UNIQUE INDEX shop_pkey1 ON public.shop USING btree (id)'
+  },
+  {
+    schemaname: 'public',
+    tablename: 'shop',
+    indexname: 'funding_id',
+    tablespace: null,
+    indexdef: 'CREATE UNIQUE INDEX funding_id ON public.shop USING btree (funding_type, _id)'
+  }
+]
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 1:54:43 PM ~ 8/1/2024, 1:56:15 PM
+   ㄴelapsed       : 92249
+   ㄴtotal queries : 10000
+   ㄴthruput       : 108.4 ops/sec
+   ㄴavg time/query: 9.2249 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..2678.04 rows=166 width=32) (actual time=0.033..1.288 rows=148 loops=1)
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 1:56:15 PM ~ 8/1/2024, 1:58:12 PM
+   ㄴelapsed       : 116318
+   ㄴtotal queries : 10000
+   ㄴthruput       : 85.97 ops/sec
+   ㄴavg time/query: 11.6318 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..5072.14 rows=332 width=32) (actual time=0.136..2.139 rows=284 loops=1)
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 1:58:12 PM ~ 8/1/2024, 1:59:51 PM
+   ㄴelapsed       : 98713
+   ㄴtotal queries : 10000
+   ㄴthruput       : 101.3 ops/sec
+   ㄴavg time/query: 9.8713 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..2678.04 rows=166 width=32) (actual time=0.022..1.173 rows=148 loops=1)
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 1:59:51 PM ~ 8/1/2024, 2:01:50 PM
+   ㄴelapsed       : 118854
+   ㄴtotal queries : 10000
+   ㄴthruput       : 84.13 ops/sec
+   ㄴavg time/query: 11.8854 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..5072.14 rows=332 width=32) (actual time=0.144..2.149 rows=284 loops=1)
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:01:50 PM ~ 8/1/2024, 2:03:24 PM
+   ㄴelapsed       : 93860
+   ㄴtotal queries : 10000
+   ㄴthruput       : 106.54 ops/sec
+   ㄴavg time/query: 9.386 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..2678.04 rows=166 width=32) (actual time=0.022..1.071 rows=148 loops=1)
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:03:24 PM ~ 8/1/2024, 2:05:17 PM
+   ㄴelapsed       : 112669
+   ㄴtotal queries : 10000
+   ㄴthruput       : 88.75 ops/sec
+   ㄴavg time/query: 11.2669 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..5072.14 rows=332 width=32) (actual time=0.134..2.181 rows=284 loops=1)
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:05:18 PM ~ 8/1/2024, 2:06:54 PM
+   ㄴelapsed       : 96399
+   ㄴtotal queries : 10000
+   ㄴthruput       : 103.73 ops/sec
+   ㄴavg time/query: 9.6399 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..2678.04 rows=166 width=32) (actual time=0.023..1.122 rows=148 loops=1)
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:06:54 PM ~ 8/1/2024, 2:08:49 PM
+   ㄴelapsed       : 114773
+   ㄴtotal queries : 10000
+   ㄴthruput       : 87.12 ops/sec
+   ㄴavg time/query: 11.4773 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..5072.14 rows=332 width=32) (actual time=0.203..4.138 rows=284 loops=1)
+
+====================================================================
+Running Queries with Filter500
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:08:50 PM ~ 8/1/2024, 2:10:25 PM
+   ㄴelapsed       : 95300
+   ㄴtotal queries : 10000
+   ㄴthruput       : 104.93 ops/sec
+   ㄴavg time/query: 9.53 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..2678.04 rows=166 width=32) (actual time=0.022..1.060 rows=148 loops=1)
+
+====================================================================
+Running Queries with Filter1000
+0--------->--------->--------->--------->--------->--------->--------->--------->--------->---------
+ㄴ8/1/2024, 2:10:25 PM ~ 8/1/2024, 2:12:20 PM
+   ㄴelapsed       : 115034
+   ㄴtotal queries : 10000
+   ㄴthruput       : 86.93 ops/sec
+   ㄴavg time/query: 11.5034 ms
+ㄴqueryPlan: Index Scan using funding_id on shop  (cost=0.42..5072.14 rows=332 width=32) (actual time=0.138..2.184 rows=284 loops=1)

@@ -15,7 +15,14 @@ function loadConfig() {
   ];
 }
 
-async function runQuery() {
+async function startPgPlanHint(client) {
+  const query = "select * from pg_indexes where tablename='shop';";
+  const result = await client.query(query);
+  console.log(result.rows);
+  // console.log((await client.query("select * from pg_extension;")).rows);
+}
+
+async function runQuery(bi) {
   const filter500 = JSON.parse(fs.readFileSync("../filter500.json"));
   const filter1000 = JSON.parse(fs.readFileSync("../filter1000.json"));
   const { Client } = pg;
@@ -28,6 +35,9 @@ async function runQuery() {
     password: pwd,
   });
   await client.connect();
+  if (bi === 0) {
+    await startPgPlanHint(client);
+  }
 
   let query, result, explain;
   const project =
@@ -41,14 +51,13 @@ async function runQuery() {
     query =
       "SELECT (" +
       project +
-      ") " +
-      `FROM ${tbl} WHERE ` +
+      `) FROM ${tbl} WHERE ` +
       `funding_type='time' AND _id IN (${filterIn.join()})`;
 
     const start = Date.now();
     process.stdout.write("0");
     for (let i = 0; i < nLoop; i++) {
-      result = await client.query(query);
+      result = await client.query(query + ";");
       if (i !== 0 && i % 100 === 0) {
         if (i % 1000 === 0) {
           process.stdout.write(">");
@@ -76,13 +85,19 @@ async function runQuery() {
       "ops/sec",
     );
     console.log("   ㄴavg time/query:", elapse / nLoop, "ms");
-    explain = await client.query(`EXPLAIN ANALYZE ${query}`);
+    explain = await client.query(`EXPLAIN ANALYZE ${query};`);
     console.log("ㄴqueryPlan:", explain.rows[0]["QUERY PLAN"]);
-    console.log("ㄴ" + explain.rows[4]["QUERY PLAN"]);
-    console.log("ㄴ" + explain.rows[5]["QUERY PLAN"]);
+    // console.log("ㄴ" + explain.rows[4]["QUERY PLAN"]);
+    // console.log("ㄴ" + explain.rows[5]["QUERY PLAN"]);
   }
 
   client.end();
 }
 
-await runQuery();
+async function runQueryBatch() {
+  for (let i = 0; i < 5; i++) {
+    await runQuery(i);
+  }
+}
+
+await runQueryBatch();
